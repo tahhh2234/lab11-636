@@ -6,10 +6,17 @@ export default function roomRoute(req, res) {
   if (!user) {
     return res.status(401).json({
       ok: false,
-      message: "Yon don't permission to access this api",
+      message: "You don't have permission to access this api",
     });
   }
-  const chatrooms = readChatRoomsDB();
-
   //create room data and return response
+  const chatrooms = readChatRoomsDB();
+  const result = [];
+  for (const chart of chatrooms) {
+    result.push({
+      roomId: chart.roomId,
+      roomName: chart.roomName,
+    });
+  }
+  return res.json({ ok: true, rooms: result });
 }
